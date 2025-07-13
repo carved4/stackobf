@@ -1,6 +1,6 @@
 # stackobf
 
-a string obfuscation system designed for redteam/maldev usagem this project is meant to demonstrate automated obfuscation of sensitive strings (like api names, system calls, etc.) that remain completely encrypted when the binary is not running, with no expensive hashing operations and dynamic entropy gathering from the target system. as well as a simple API to make accessing the strings in your own projects easy and painless, this is a very common method employed by threat actors to make reverse engineering and static analysis of malware harder. 
+a string obfuscation system designed for redteam/maldev usage. this project is meant to demonstrate automated obfuscation of sensitive strings (like api names, system calls, etc.) that remain completely encrypted when the binary is not running, with no expensive hashing operations and dynamic entropy gathering from the target system. as well as a simple API to make accessing the strings in your own projects easy and painless, this is a very common method employed by threat actors to make reverse engineering and static analysis of malware harder. 
 
 ## how to use
 
