@@ -15,7 +15,7 @@ go run main.go
 
 # this creates obf.go with the obfuscated data
 # in your project, import and use:
-import "stackobf/obfuscator"
+import "github.com/carved4/stackobf/obfuscator"
 
 // use the generated obfuscated data
 data := GetObfuscatedData()
@@ -35,9 +35,12 @@ inPlaceBytes := obf.GetInPlace(1)  // direct byte access
 obf.Clear()  // securely clear decrypted strings from memory
 ```
 
+> at build time, you should use go build -ldflags="-w -s -buildid=" -trimpath -o bin
+> this will make reverse engineering harder 
+
 ## technical details
 
-rolling fibonacci key with position-influenced sequences for encryption. we gather dynamic entropy from the target system's environment (hostname, user, runtime stats, etc.) without using syscalls to ensure cross-platform compatibility. strings are encrypted using xor with a rolling key and interleaved with random padding to break patterns. the vm-based access system executes truly random bytecode sequences instead of direct string lookups, making it exponentially harder to correlate access patterns with actual string content. when strings are decrypted, they're stored in a secure pool that can be cleared with obf.Clear() to prevent forensic recovery. deterministic entropy ensures consistent decryption while volatile entropy provides randomness for padding generation. advanced evasion features include volatile key mutation (keys re-roll every 100ms using runtime context), stack-smashing resistance (randomized decoy access patterns), optional zlib compression before encryption, pure in-place decryption (GetInPlace() method with no gc tracking), and truly random vm bytecode execution. the vm uses dynamic function pointer dispatch (no switch cases) with randomized handler order, making reverse engineering significantly harder. each string access generates up to 1700+ unique vm operations through mathematical decomposition without conditional logic (no if/else statements in opcode generation). random opcode generation uses mathematical transformations to ensure correctness while maintaining randomness. noise insertion uses mathematical probability without conditional logic, generating mathematically neutral operations that cancel out. demo output shows actual vm operation chains like "PUSH 217 -> PUSH 217 -> XOR 0 -> ... +1167 ops" for each string retrieval. 
+rolling fibonacci key with position-influenced sequences for encryption. we gather dynamic entropy from the target system's environment (hostname, user, runtime stats, etc.) without using syscalls to ensure cross-platform compatibility. strings are encrypted using xor with a rolling key and interleaved with random padding to break patterns. the vm-based access system executes truly random bytecode sequences instead of direct string lookups, making it exponentially harder to correlate access patterns with actual string content. when strings are decrypted, they're stored in a secure pool that can be cleared with obf.Clear() to prevent forensic recovery. deterministic entropy ensures consistent decryption while volatile entropy provides randomness for padding generation. advanced evasion features include volatile key mutation (keys re-roll every 100ms using runtime context), stack-smashing resistance (randomized decoy access patterns), optional zlib compression before encryption, pure in-place decryption (GetInPlace() method with no gc tracking), and truly random vm bytecode execution. the vm uses dynamic function pointer dispatch with randomized handler order, making reverse engineering significantly harder. each string access generates up to 1700+ unique vm operations through mathematical decomposition without conditional logic (no if/else statements in opcode generation). random opcode generation uses mathematical transformations to ensure correctness while maintaining randomness. noise insertion uses mathematical probability without conditional logic, generating mathematically neutral operations that cancel out. demo output shows actual vm operation chains like "PUSH 217 -> PUSH 217 -> XOR 0 -> ... +1167 ops" for each string retrieval. 
 
 ## static analysis resistance
 

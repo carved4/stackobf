@@ -1126,8 +1126,8 @@ func GenerateStub(data *ObfuscatedData) string {
 
 	sb.WriteString(fmt.Sprintf("var %s = %d\n", constantNames[0], lengthOffset))
 	sb.WriteString(fmt.Sprintf("var %s = %d\n", constantNames[1], lengthMask))
-	sb.WriteString(fmt.Sprintf("var %s = %d\n", constantNames[2], obfKey))
-	sb.WriteString(fmt.Sprintf("var %s = %d\n", constantNames[3], padKey))
+	sb.WriteString(fmt.Sprintf("var %s = uint64(%d)\n", constantNames[2], obfKey))
+	sb.WriteString(fmt.Sprintf("var %s = uint64(%d)\n", constantNames[3], padKey))
 	sb.WriteString(fmt.Sprintf("var %s = %d\n", constantNames[4], padMask))
 	sb.WriteString(fmt.Sprintf("var useCompression = %t\n\n", data.Compressed))
 
