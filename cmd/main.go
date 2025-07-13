@@ -7,13 +7,28 @@ import (
 	"strings"
 	"time"
 
-	"stackobf/obfuscator"
+	"github.com/carved4/stackobf/obfuscator"
 )
 
 func main() {
-	file, err := os.Open("input.txt")
+	var inputPath string
+	if wd, err := os.Getwd(); err == nil {
+		if strings.HasSuffix(wd, "cmd") || strings.HasSuffix(wd, "cmd/") {
+			inputPath = "input.txt"
+		} else {
+			inputPath = "cmd/input.txt"
+		}
+	} else {
+		if _, err := os.Stat("input.txt"); err == nil {
+			inputPath = "input.txt"
+		} else {
+			inputPath = "cmd/input.txt"
+		}
+	}
+
+	file, err := os.Open(inputPath)
 	if err != nil {
-		fmt.Printf("[-] error opening input.txt: %v\n", err)
+		fmt.Printf("[-] error opening %s: %v\n", inputPath, err)
 		return
 	}
 	defer file.Close()
