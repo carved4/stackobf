@@ -17,22 +17,22 @@ go run main.go
 # in your project, import and use:
 import "github.com/carved4/stackobf/obfuscator"
 
-// use the generated obfuscated data
+## use the generated obfuscated data
 data := GetObfuscatedData()
 obf := obfuscator.NewObfuscator(data)
 
-// access strings via vm bytecode execution
-apiCall := obf.Get(2)        // navigate and retrieve without obvious lookups
-process := obf.Get(1)        // next string via stack operations
-thread := obf.Get(3)         // another string
+## access strings via vm bytecode execution
+apiCall := obf.Get(2)        ## navigate and retrieve without obvious lookups
+process := obf.Get(1)        ## next string via stack operations
+thread := obf.Get(3)         ## another string
 
-// get bytecode for debugging/analysis
-bytecode := obf.GetBytecode(1)  // shows vm operations used for retrieval
+## get bytecode for debugging/analysis
+bytecode := obf.GetBytecode(1)  ## shows vm operations used for retrieval
 
-// in-place decryption (no gc tracking)
-inPlaceBytes := obf.GetInPlace(1)  // direct byte access
+## in-place decryption (no gc tracking)
+inPlaceBytes := obf.GetInPlace(1)  ## direct byte access
 
-obf.Clear()  // securely clear decrypted strings from memory
+obf.Clear()  ## securely clear decrypted strings from memory
 ```
 
 > at build time, you should use go build -ldflags="-w -s -buildid=" -trimpath -o bin
